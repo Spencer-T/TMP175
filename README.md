@@ -27,3 +27,9 @@ P1  P0  Type  Register
 Assuming we're not not using shutdown SD=0, thermostat mode in comparator mode TM=0, polarity bit is POL=0, Fault queue is F0/F1=00 , 
 converter resolution is 12 bits R1/R0= 11 , one-shot is 0,
 Byte to be written = 0x60
+# i2cset -y 2 0x37 0x01 0x60
+# i2cset -y 2 0x37 0x00
+# i2cget -y 2 0x37 0x00 w
+0xf01c
+A value of hex 1CF is returned. This correspond to a decimal value of 463. Dividing by 16, we get 28.93 degree C
+
