@@ -16,3 +16,11 @@ root@beaglebone:~# i2cdetect -y -r 2
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 A bus adapter is detected on address 0x37, and this is the TMP175, whereby A0~A2 is left floating.
+The 8 bit Pointer register is used to address a given data register
+The Pointer register uses teo LSBs to identify which of the data registers must respond to a read or write commands
+Pointer Address:
+P1  P0  Type  Register
+0   0   R     Temp register
+0   1   R/W   Configuration register
+1   0   R/W   Tlow register
+1   1   R/W   Thigh register
