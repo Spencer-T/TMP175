@@ -28,7 +28,7 @@ TMP175 A0-A2 is floating, giving the address of 0x37
 
 int main(int argc, char **argv)
 {
-	
+	int count=0;
 	int file;
 	char *filename = "/dev/i2c-2";
 	if ((file=open(filename, O_RDWR)) < 0)
@@ -39,30 +39,30 @@ int main(int argc, char **argv)
 	unsigned char buf[10] = {0};
         if(write(file, buf,1) != 1)
             exit(1);
-        int r = read(file,buf,2);
-        unsigned char tempH = buf[0];
-        unsigned char tempL = buf[1];
+
+//        int r = read(file,buf,2);
+//        unsigned char tempH = buf[0];
+//        unsigned char tempL = buf[1];
 //***	Shift the tempH byte by 8 bits and combine with tempL
-	unsigned int temp;
-        temp=(tempH<<8) + tempL;
+//	unsigned int temp;
+//        temp=(tempH<<8) + tempL;
 //***	Shift the 2 bytes by four bits as the actual data is 12 bits resolution
-	temp=temp>>4;
+//	temp=temp>>4;
 
 //***   convert char to integer so that it can be divide
-	char temp_s[4];
-	sprintf(temp_s, "%d", temp);	
+//	char temp_s[4];
+//	sprintf(temp_s, "%d", temp);	
 	
 //**	change to float so that the final value has floating number 
 //***	after divide
 
-	float temp_i = atoi(temp_s);	
+//	float temp_i = atoi(temp_s);	
 
-	float temp_final;
-	temp_final = temp_i/16;	
-	char str_temp[16];
-	sprintf(str_temp, "%f", temp_final);
+//	float temp_final;
+//	temp_final = temp_i/16;	
+//	char str_temp[16];
+//	sprintf(str_temp, "%f", temp_final);
 
-	int count=0;
 		
 	//specifies the pins that will be used for LCD
 
@@ -98,11 +98,31 @@ int main(int argc, char **argv)
 	
 	stringToScreen("execute code..",enabled_gpio);
 	sleep(2.0);
-	while (count<10)
+	while (count<3600)
 	{	
-	
-	
-		clear_Screen(enabled_gpio);
+	int r = read(file,buf,2);
+        unsigned char tempH = buf[0];
+        unsigned char tempL = buf[1];
+//***   Shift the tempH byte by 8 bits and combine with tempL
+        unsigned int temp;
+        temp=(tempH<<8) + tempL;
+//***   Shift the 2 bytes by four bits as the actual data is 12 bits resolution
+        temp=temp>>4;
+
+//***   convert char to integer so that it can be divide
+        char temp_s[4];
+        sprintf(temp_s, "%d", temp);
+//**    change to float so that the final value has floating number
+//***   after divide
+
+        float temp_i = atoi(temp_s);
+
+        float temp_final;
+        temp_final = temp_i/16;
+        char str_temp[16];
+        sprintf(str_temp, "%f", temp_final);
+
+	clear_Screen(enabled_gpio);
 //		time_t t=time(NULL);
 //       	struct tm *tm=localtime(&t);
 //        	char s[64];
